@@ -1,5 +1,7 @@
 package haw.informatik.party.partyZeug;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -27,8 +29,8 @@ public class PartyZeugService {
 
   public void borrow(ZeugArt zeugArt) {
     ExampleMatcher matcher = ExampleMatcher.matchingAny()
-            .withIgnorePaths("zustand");
-    Example<PartyZeug> example = Example.of(new PartyZeug(zeugArt, null, Status.VERFUEGBAR), matcher );
+            .withIgnorePaths("zustand", "id");
+    Example<PartyZeug> example = Example.of(new PartyZeug(zeugArt, null, Status.VERFUEGBAR), matcher);
 
     long id = partyZeugRepository.findOne(example).get().getId();
     partyZeugRepository.updateStatus(id, Status.AUSGELIEHEN);
@@ -36,7 +38,7 @@ public class PartyZeugService {
 
   public void returnBack(ZeugArt zeugArt) {
     ExampleMatcher matcher = ExampleMatcher.matchingAny()
-        .withIgnorePaths("zustand");
+        .withIgnorePaths("zustand", "id");
     Example<PartyZeug> example = Example.of(new PartyZeug(zeugArt, null, Status.AUSGELIEHEN), matcher);
 
     long id = partyZeugRepository.findOne(example).get().getId();
@@ -54,6 +56,4 @@ public class PartyZeugService {
   public void markAsBroken(long id) {
     partyZeugRepository.updateStatus(id, Status.DEFEKT);
   }
-
-
 }

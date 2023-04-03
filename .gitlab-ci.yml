@@ -1,0 +1,37 @@
+stages:
+  - build-and-test
+
+build-and-test:
+  stage: build-and-test
+  image: openjdk:17-oracle
+  script:
+    - chmod +x ./gradlew
+    - ./gradlew build
+  artifacts:
+    when: always
+    paths:
+      - build/reports/
+  only:
+    - main
+
+
+## see https://jreleaser.org/guide/latest/continuous-integration/gitlab-ci.html
+## Create a release
+#release:
+#  # Use the predefined JReleaser Docker image
+#  image: jreleaser/jreleaser-slim:<version>
+#  # Bind to `deploy` stage
+#  stage: deploy
+#  # Set environment variables accordingly
+#  variables:
+#    JRELEASER_PROJECT_VERSION: 1.0.0
+#    JRELEASER_GPG_PASSPHRASE: $GPG_PASSPHRASE
+#    JRELEASER_GPG_PUBLIC_KEY: $GPG_PUBLIC_KEY
+#    JRELEASER_GPG_SECRET_KEY: $GPG_SECRET_KEY
+#    JRELEASER_GITLAB_TOKEN: $GL_PAT
+#    # Disable shallow cloning so that JReleaser can diff between tags
+#    # to generate a changelog
+#    GIT_DEPTH: 0
+#  #  Execute JReleaser
+#  script:
+#    - jreleaser full-release

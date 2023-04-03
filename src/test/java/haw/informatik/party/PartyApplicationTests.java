@@ -52,18 +52,21 @@ class PartyApplicationTests {
 
   @Test
   public void testGetStatus() {
-    assertThat(partyZeugService.getStatus(1L).equals(Status.VERFUEGBAR));
+    PartyZeug zeug = partyZeugRepository.findAll().get(0);
+    assertThat(zeug.equals(Status.VERFUEGBAR));
   }
 
   @Test
   public void testMarkAsRepaired() {
     partyZeugService.markAsRepaired(1L);
-    assertThat(partyZeugService.getPartyzeugById(1L).getZustand().equals(Zustand.REPARIERT));
+    PartyZeug zeug = partyZeugRepository.findAll().get(0);
+    assertThat(zeug.getZustand().equals(Zustand.REPARIERT));
   }
 
   @Test
   public void testMarkAsBroken() {
     partyZeugService.markAsBroken(1L);
-    assertThat(partyZeugService.getPartyzeugById(1L).getStatus().equals(Status.DEFEKT));
+    PartyZeug zeug = partyZeugRepository.findAll().get(0);
+    assertThat(zeug.getStatus().equals(Status.DEFEKT));
   }
 }

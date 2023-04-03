@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface PartyZeugRepository extends JpaRepository<PartyZeug, Long> {
 
   @Modifying
-  @Query("update PartyZeug p set p.status = :status where p.id = :id ")
+  @Query("update PartyZeug p set p.status = :status where p.id = :id")
   void updateStatus(@Param("id") long id, @Param("status") Status status);
 
   @Modifying
